@@ -1,7 +1,10 @@
 require 'data_mapper'
 require 'sinatra/base'
+require './lib/link'
+require './lib/tag'
 
 class BookmarkManagerWeb < Sinatra::Base
+
 
   get '/' do
     @links = Link.all
@@ -11,6 +14,7 @@ class BookmarkManagerWeb < Sinatra::Base
   post '/links' do
     url = params['url']
     title = params['title']
+    tags = params['tags']
     Link.create(url: url, title: title)
     redirect to('/')
   end
@@ -23,7 +27,7 @@ env = ENV['RACK_ENV'] || 'development'
 
 DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
 
-require './lib/link'
+
 
 DataMapper.finalize
 
