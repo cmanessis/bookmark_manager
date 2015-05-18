@@ -1,0 +1,28 @@
+<head>
+
+<h1>Hello</h1>
+
+</head>
+
+<body>
+
+<ul>
+  <% @links.each do |link| %>
+  <li><a href='<%= "http: //" + link.url %>'><%= link.title %></a></li>
+  <% end %>
+</ul>
+
+<div id = 'new-link'>
+  <form action = '/links' method = 'post'>
+    Url: <input type='text' name='url'>
+    Title: <input type='text' name='title'>
+    <input type = 'submit' value='Add link'>
+  </form>
+</div>
+
+
+
+
+
+
+</body>
