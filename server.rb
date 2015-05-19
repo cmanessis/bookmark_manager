@@ -1,5 +1,6 @@
 require 'data_mapper'
 require 'sinatra/base'
+require 'rack-flash'
 require './lib/link.rb'
 require './lib/tag.rb'
 require './lib/user.rb'
@@ -15,6 +16,13 @@ DataMapper.auto_upgrade!
 class BookmarkManagerWeb < Sinatra::Base
   enable :sessions
   set :session_secret, 'super secret'
+  use Rack::Flash, :sweep => true
+
+  helpers do
+    def current_user
+      @current_user ||= User.get(session[:user_id]) if session[:user_id]
+    end
+  end
 
   get '/' do
     @links = Link.all
@@ -38,23 +46,24 @@ class BookmarkManagerWeb < Sinatra::Base
   end
 
   get '/users/new' do
+    @user = User.new
     erb :'users/new'
   end
 
   post '/users' do
-    user = User.create(email: params[:email],
+    @user = User.create(email: params[:email],
                 password: params[:password],
                 password_confirmation: params[:password_confirmation])
-    session[:user_id] = user.id
+                if @user.save
+    session[:user_id] = @user.id
     redirect to('/')
+  else
+    flash[:notice] = 'Sorry, your passwords do not match'
+    erb :'users/new'
   end
 
-  helpers do
-    def current_user
-      @current_user ||= User.get(session[:user_id]) if session[:user_id]
-      end
-  end
+end
 
   # start the server if ruby file executed directly
-  run! if app_file == $PROGRAM_NAME
+  run! if app_file == $0
 end
