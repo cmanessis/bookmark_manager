@@ -10,7 +10,7 @@ require_relative 'data_mapper_setup'
 enable :sessions
 set :session_secret, 'my unique encryption key!'
 use Rack::Flash
-
+use Rack::MethodOverride
 
 get '/' do
   @links = Link.all
@@ -75,4 +75,11 @@ post '/users' do
     flash.now[:errors] = @user.errors.full_messages
     erb :"users/new"
   end
+
+end
+
+delete '/sessions' do
+  flash[:notice] = 'Logged out'
+  session[:user_id] = nil
+  redirect to('/')
 end
