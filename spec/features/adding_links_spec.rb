@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 feature 'User adds a new link' do
   scenario 'when browsing the homepage' do
     expect(Link.count).to eq(0)
@@ -15,7 +17,7 @@ feature 'User adds a new link' do
              'Makers Academy',
              %w(education ruby))
     link = Link.first
-    # expect(link.tags).to include('education') 
+    # expect(link.tags).to include('education')
     # expect(link.tags).to include('ruby')
     expect(link.tags.map(&:text)).to include 'education', 'ruby'
   end

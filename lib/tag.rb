@@ -6,4 +6,4 @@ class Tag
   property :id, Serial
   property :text, String
 
-end 
+end

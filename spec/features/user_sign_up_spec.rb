@@ -1,4 +1,4 @@
-
+require 'spec_helper'
 
 feature 'User signs up' do
   scenario 'when being a new user visiting the site' do
