@@ -18,7 +18,7 @@ feature 'User signs up' do
   scenario 'with an email that is already registered' do
     expect { sign_up }.to change(User, :count).by(1)
     expect { sign_up }.to change(User, :count).by(0)
-    expect(page).to have_content('This email is already exists')
+    expect(page).to have_content('This email already exists')
 end
 
 end
