@@ -9,7 +9,7 @@ gem 'bcrypt-ruby'
 gem 'rack-flash3'
 gem 'sinatra-partial'
 
-group :test do
+group :development, :test do
   gem 'byebug'
   gem 'capybara'
   gem 'coveralls', require: false
